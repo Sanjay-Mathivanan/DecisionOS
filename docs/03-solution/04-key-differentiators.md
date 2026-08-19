@@ -1,21 +1,56 @@
 # Key Differentiators
 
 ## Purpose
-This document highlights what sets DecisionOS Civic apart from conventional civic platforms.
+This document contrasts DecisionOS Civic with conventional grievance apps, detailing workflow comparisons and resource dispatch lifecycles.
 
 ## Content
-### Comparison Chart
 
-| Capability | Normal Complaint App | DecisionOS Civic |
+### Operational Comparison Matrix
+The table below contrasts standard citizen complaint systems with the DecisionOS Civic platform:
+
+| Operational Dimension | Conventional Mobile Grievance Apps | DecisionOS Civic |
 |---|---|---|
-| **Primary Focus** | Grievance registration & routing. | Predictive Smart Governance. |
-| **AI Integration** | None or simple keyword matching. | Deep Multimodal (Text + Image + GIS + History). |
-| **Clustering** | Treats complaints independently. | Automatically groups duplicates into incident zones. |
-| **Risk Modeling** | Reactive (Wait for citizen reports). | Geospatial & Time-Series risk mapping. |
-| **Operational Guidance**| Manual dispatch. | Mathematical Optimization (ILP, OR-Tools). |
-| **Simulation** | None. | What-if scenario sandbox for administrators. |
-| **Explainability** | Not applicable. | SHAP values, feature breakdowns, benefit reasons. |
+| **Incident Processing** | Treats each ticket independently. | Groups duplicates into a single Incident using spatial-temporal buffers. |
+| **Triage Time** | Manual reading by clerical staff. | Automated classification using fine-tuned NLP models. |
+| **Field Dispatch** | Arbitrary routing, leading to high resource waste. | Solved mathematically via Integer Linear Programming. |
+| **Queue Logic** | First-In, First-Out (FIFO) queue. | Dynamic queue sorted by priority scores (0-100). |
+| **Auditing & Trust** | Closed ticket status with no explanation. | Explainable AI (SHAP value breakdowns and cost metrics). |
+
+---
+
+### Incident Lifecycle Lifespans
+The flowchart below maps the lifecycle of a pothole incident under a conventional workflow compared to the DecisionOS workflow:
+
+```mermaid
+flowchart TD
+    subgraph Conventional Grid
+        A1[Citizen A reports Pothole] --> B1[Ticket 1 Registered]
+        A2[Citizen B reports same Pothole] --> B2[Ticket 2 Registered]
+        B1 --> C1[Manual forwarding to Roads Dept]
+        B2 --> C2[Manual forwarding to Roads Dept]
+        C1 --> D1[Patcher crew dispatched to Ticket 1]
+        C2 --> D2[Separate patcher crew dispatched to Ticket 2]
+        Note over D2: Wasted transit, budget, and labor hours
+    end
+
+    subgraph DecisionOS Grid
+        X1[Citizen A reports Pothole] --> Ingest[Ingestion Gateway]
+        X2[Citizen B reports same Pothole] --> Ingest
+        Ingest --> Cluster[DBSCAN Clustering: Merged into Incident #RD-1042]
+        Cluster --> Priority[Weighted priority score calculated: 83/100]
+        Priority --> Solver[OR-Tools solver runs: Selects optimal crew]
+        Solver --> Recommendation[Rec: Dispatch Crew A to site]
+        Recommendation --> Human{Officer Approval}
+        Human -->|Approve| Dispatch[Single Crew A dispatched]
+        Note over Dispatch: Consolidated task, 0% resource waste
+    end
+```
+
+---
+*Source basis: DecisionOS Civic source document*
 
 ## Related Documents
 - [Proposed Solution](01-proposed-solution.md)
-- [Research Contribution](../13-research/03-research-contribution.md)
+- [How DecisionOS Works](03-how-decisionos-works.md)
+- [Resource Optimization](../06-ai-ml/10-resource-optimization.md)
+- [Limitations of Existing Systems](../02-problem/03-existing-system-limitations.md)
