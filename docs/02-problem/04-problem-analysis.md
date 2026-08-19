@@ -34,8 +34,8 @@ To overcome these, our vision pipeline implements pre-processing filters to chec
 Municipal officers face a massive gap between receiving complaints and dispatching resources. Raw datasets are fragmented:
 
 $$
-\text{Data Influx} \quad \{ \text{Text}, \, \text{Image}, \, \text{GPS}, \, \text{Weather} \} \quad \centernot\implies \quad \text{Optimal Resource Dispatch}
-```
+\text{Data Influx} \quad \{ \text{Text}, \, \text{Image}, \, \text{GPS}, \, \text{Weather} \} \quad \not\implies \quad \text{Optimal Resource Dispatch}
+$$
 
 Bridging this gap requires three distinct computational layers:
 1.  **AI Understanding**: Converts raw text and images into structured categories and severity scores.

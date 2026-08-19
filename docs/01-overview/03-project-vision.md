@@ -62,7 +62,7 @@ DecisionOS implements two closed-loop feedback pathways to improve model accurac
 *   *Action*: These override patterns are evaluated to dynamically update the priority weight factors:
 
 $$
-w_{\text{domain\_new}} = (1 - \alpha) \cdot w_{\text{domain\_old}} + \alpha \cdot \text{OverrideCorrection}
+w_{\text{domain-new}} = (1 - \alpha) \cdot w_{\text{domain-old}} + \alpha \cdot \text{OverrideCorrection}
 $$
 
 Where $\alpha$ is the learning rate, ensuring the prioritization engine aligns with localized human expertise.
