@@ -54,18 +54,18 @@ flowchart LR
 DecisionOS implements two closed-loop feedback pathways to improve model accuracy over time:
 
 #### 1. Optimization Speed Calibration Loop
-*   *Mechanism*: When a field team marks a task completed, the system logs the actual resolution duration (\(T_{\text{actual}}\)) and compares it with the solver's predicted duration (\(T_{\text{predicted}}\)).
+*   *Mechanism*: When a field team marks a task completed, the system logs the actual resolution duration ($T_{\text{actual}}$) and compares it with the solver's predicted duration ($T_{\text{predicted}}$).
 *   *Action*: The difference is fed back to update the cost coefficients of the Integer Linear Programming constraint models, refining future dispatch time estimates.
 
 #### 2. Prioritization Weight Calibration Loop
 *   *Mechanism*: The system tracks how often officers override the priority queue rankings (e.g., regularly bumping waste cleanup tasks above street light repairs).
 *   *Action*: These override patterns are evaluated to dynamically update the priority weight factors:
 
-\[
+$$
 w_{\text{domain\_new}} = (1 - \alpha) \cdot w_{\text{domain\_old}} + \alpha \cdot \text{OverrideCorrection}
-\]
+$$
 
-Where \(\alpha\) is the learning rate, ensuring the prioritization engine aligns with localized human expertise.
+Where $\alpha$ is the learning rate, ensuring the prioritization engine aligns with localized human expertise.
 
 ---
 *Source basis: DecisionOS Civic source document*
