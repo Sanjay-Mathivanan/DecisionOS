@@ -8,29 +8,12 @@ This document presents the architecture and core software layers of **DecisionOS
 ### Sits-Above Integration Layer
 DecisionOS Civic is not designed to replace existing municipal portals. Instead, it is built as an **intelligent middleware layer** that sits above existing databases and complaint tools:
 
-```
-┌──────────────────────────────────────┐
-│     Existing Grievance Systems       │ (CPGRAMS, UMANG, Web Apps)
-└──────────────────┬───────────────────┘
-                   │
-                   ▼ (REST APIs / Webhooks / CSV Uploads)
-┌──────────────────────────────────────┐
-│           DECISIONOS CIVIC           │
-│  - AI Ingestion & Classification     │ (NLP reads text, CV reads photos)
-│  - Duplicate Checking & Clustering   │ (Groups matching tickets together)
-│  - Priority Ranking Queue            │ (Sorts issues by urgency)
-│  - Resource Allocation Scheduler     │ (Recommends dispatches using OR-Tools)
-└──────────────────┬───────────────────┘
-                   │
-                   ▼ (Supervisor Review Queue)
-┌──────────────────────────────────────┐
-│    Authorized Municipal Decisions    │ (Approve / Override with reason logs)
-└──────────────────┬───────────────────┘
-                   │
-                   ▼ (Field dispatch instructions)
-┌──────────────────────────────────────┐
-│     Existing Departmental Queues     │ (Roads, Water, Waste, Drainage Teams)
-└──────────────────────────────────────┘
+```mermaid
+flowchart TD
+    Gov[Existing Grievance Systems<br/>CPGRAMS, UMANG, Web Apps]
+    Gov -->|REST APIs / Webhooks / CSV Ingestion| OS[DECISIONOS CIVIC<br/>- AI Ingestion & Classification<br/>- Duplicate Checking & Clustering<br/>- Priority Ranking Queue<br/>- Resource Allocation Scheduler]
+    OS -->|Supervisor Review Queue| Decision[Authorized Municipal Decisions<br/>Approve / Override with reason logs]
+    Decision -->|Field dispatch instructions| Queue[Existing Departmental Queues<br/>Roads, Water, Waste, Drainage Teams]
 ```
 
 ---

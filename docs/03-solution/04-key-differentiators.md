@@ -30,7 +30,7 @@ flowchart TD
         B2 --> C2[Manual forwarding to Roads Dept]
         C1 --> D1[Patcher crew dispatched to Ticket 1]
         C2 --> D2[Separate patcher crew dispatched to Ticket 2]
-        Note over D2: Wasted transit, budget, and labor hours
+        D2 --> Wasted[Note: Wasted transit, budget, and labor hours]
     end
 
     subgraph DecisionOS Grid
@@ -42,7 +42,7 @@ flowchart TD
         Solver --> Recommendation[Rec: Dispatch Crew A to site]
         Recommendation --> Human{Officer Approval}
         Human -->|Approve| Dispatch[Single Crew A dispatched]
-        Note over Dispatch: Consolidated task, 0% resource waste
+        Dispatch --> Saving[Note: Consolidated task, 0% resource waste]
     end
 ```
 
