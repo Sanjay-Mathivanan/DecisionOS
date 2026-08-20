@@ -7,16 +7,12 @@ This document outlines the initial operational domains supported by DecisionOS C
 ### Modularity & Plugins
 The core engine is domain-agnostic. Specific domains are supported through **Plugins**.
 
-```
-                 ┌────────────────────────────────┐
-                 │       DecisionOS Core Engine   │
-                 └──────┬────────┬────────┬───────┘
-                        │        │        │
-         ┌──────────────┘        │        └──────────────┐
-         ▼                       ▼                       ▼
-┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐
-│   Road Plugin    │    │   Water Plugin   │    │  Drainage Plugin │
-└──────────────────┘    └──────────────────┘    └──────────────────┘
+```mermaid
+flowchart TD
+    Core[DecisionOS Core Engine]
+    Core --> Road[Road Plugin]
+    Core --> Water[Water Plugin]
+    Core --> Drainage[Drainage Plugin]
 ```
 
 Each plugin provides:
