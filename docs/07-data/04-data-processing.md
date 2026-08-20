@@ -10,7 +10,12 @@ This document outlines the extraction, transformation, and loading (ETL) pipelin
 3. **Geocoding**: Convert nearest address tags to spatial points.
 4. **Normalizing**: Standardize date and time formats.
 
-`Raw Ingestion ──► Clean Text ──► Validate Spatial Boundaries ──► Normal DB Load`
+```mermaid
+flowchart LR
+    Ingest[Raw Ingestion] --> Clean[Clean Text]
+    Clean --> Validate[Validate Spatial Bounds]
+    Validate --> Load[Database Load]
+```
 
 ## Related Documents
 - [Data Strategy](01-data-strategy.md)

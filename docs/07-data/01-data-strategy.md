@@ -11,7 +11,13 @@ Building DecisionOS requires an established data strategy. The platform combines
 3. **Synthetic Civic Data**: Used to test resource optimization models and simulation algorithms where real-world operational datasets are unavailable.
 4. **Self-Collected Data**: Local field photos and GPS measurements to improve visual models.
 
-`Historical Records + Public Datasets + Self-Collected Photos + Synthetic Data ──► DecisionOS Database`
+```mermaid
+flowchart LR
+    Hist[Historical Records] --> DB[(DecisionOS Database)]
+    Public[Public Datasets] --> DB
+    Photos[Self-Collected Photos] --> DB
+    Synth[Synthetic Resource Data] --> DB
+```
 
 ## Related Documents
 - [Data Sources](02-data-sources.md)
