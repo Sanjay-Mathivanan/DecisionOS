@@ -12,5 +12,13 @@ This document outlines the field worker mobile interface (Status: Proposed).
   2. Open map view for routing.
   3. Upload photo evidence of resolved task to trigger closing sequence.
 
+### Operational Cycle Flowchart
+```mermaid
+flowchart LR
+    A[Receive Notification] --> B[Open Route Map]
+    B --> C[Perform Repair]
+    C --> D[Upload Completion Photo]
+```
+
 ## Related Documents
 - [User Roles](01-user-roles.md)

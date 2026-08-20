@@ -10,7 +10,12 @@ This document details the user workflow for citizens submitting reports.
 3. **Add Text & Coordinates**: Fill out details; GPS coordinates are tagged automatically.
 4. **Submit**: Click submit. A tracking token is generated.
 
-`Scan QR/Open App ──► Take Photo ──► Auto-Tag GPS ──► Click Submit`
+```mermaid
+flowchart LR
+    A[Scan QR / Open App] --> B[Take Photo]
+    B --> C[Auto-Tag GPS]
+    C --> D[Click Submit]
+```
 
 ## Related Documents
 - [User Roles](01-user-roles.md)
