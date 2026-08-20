@@ -5,7 +5,7 @@ This document describes how optimization results are translated into clear, acti
 
 ## Content
 ### Dispatch Recommendations
-Once the ILP solver determines the active incidents \(x(i) = 1\), it maps them to specific available field teams.
+Once the scheduling solver determines which incidents to resolve, it maps them to specific available field teams.
 For instance:
 - **Recommendation**: Deploy Team A to Zone 4.
 - **Justification**:

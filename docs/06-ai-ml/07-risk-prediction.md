@@ -10,7 +10,7 @@ Rather than waiting for citizen complaints, DecisionOS predicts risk:
 
 ### Model Architecture
 - **Baseline**: Random Forest / XGBoost.
-- **Advanced**: LSTM / Temporal Fusion Transformers (TFT).
+- **Advanced**: LSTM / Time-series forecasting models.
 - **Features**: Historical incidents, rainfall predictions, drainage capacity, elevation, land usage, population density, current water levels.
 
 ![Risk Prediction Diagram](../../diagrams/06-risk-prediction.png)

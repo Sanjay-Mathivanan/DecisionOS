@@ -10,6 +10,13 @@ This document details the NLP engine used to classify text complaints and extrac
   1. Multiclass Classification (Grievance category: Waste, Roads, Drainage, etc.).
   2. Entity Extraction (Location indicators, durations, affected groups).
 
+### Text Classification Pipeline
+```mermaid
+flowchart LR
+    Input[Raw Complaint Text] --> Model[DistilBERT Classifier]
+    Model --> Output[Output Parameters<br/>- Issue Category<br/>- Location Keywords<br/>- Duration Indicators<br/>- Urgency Tag]
+```
+
 ### Example Input/Output
 - **Input**: *"Water has been leaking continuously near the bus stand for three days."*
 - **Output**:
