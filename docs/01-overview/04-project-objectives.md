@@ -1,80 +1,44 @@
 # Project Objectives
 
 ## Purpose
-This document presents the detailed technical specifications, methodologies, and evaluation metrics for each of the ten core objectives of the DecisionOS Civic platform.
+This document lists the practical, clear technical objectives for our final-year project development team.
 
 ## Content
 
-### Technical Goals & Methodologies
+### Practical Project Objectives
 
-#### Objective 1 — Intelligent Civic Issue Understanding
-*   **Technical Goal**: Parse incoming unstructured text reports in multiple languages and extract core metadata: issue category, location entity, duration, and urgency indicator.
-*   **Methodology**: Utilize fine-tuned transformer networks (BERT/DistilBERT). Token classification heads perform Named Entity Recognition (NER) to isolate location nouns and duration parameters, while text classification heads categorize the issue type.
-*   **Evaluation Metrics**: Micro-averaged F1-Score (target $\ge 0.90$) and Exact Match Accuracy for extracted entities.
+Our team aims to implement the following ten capabilities to demonstrate a working prototype of DecisionOS Civic:
 
-#### Objective 2 — Multimodal Civic Analysis
-*   **Technical Goal**: Concurrently analyze and fuse text descriptions and image uploads to determine incident severity and resolve conflicting signals.
-*   **Methodology**: Apply late-fusion multimodal learning. Text features are mapped to a 384-dimensional dense space using `sentence-transformers`, while image layers are mapped to a 512-dimensional vector using `ResNet`. The outputs are concatenated and passed to a joint classifier.
-*   **Evaluation Metrics**: Classification Accuracy comparison (Multimodal vs. Text-Only baseline).
-
-#### Objective 3 — Duplicate Incident Detection
-*   **Technical Goal**: Identify redundant complaints reporting the same physical defect, grouping them into a single core incident cluster.
-*   **Methodology**: Calculate a weighted similarity metric combining text cosine similarity, ResNet image distance, spatial distance (via PostGIS R-tree indexing), and temporal differences.
-*   **Evaluation Metrics**: Precision, Recall, and F1-score of the similarity engine (target Precision $\ge 0.92$).
-
-#### Objective 4 — Civic Severity Prediction
-*   **Technical Goal**: Predict the operational severity rating (0-100) of an incident.
-*   **Methodology**: Train multiclass classifiers (e.g., Random Forest, XGBoost) using fused input representations, proximity parameters, and historical repeat flags.
-*   **Evaluation Metrics**: Mean Absolute Error (MAE) of the predicted severity index compared to manual ratings.
-
-#### Objective 5 — Predictive Civic Risk
-*   **Technical Goal**: Forecast localized infrastructure failure hazards (e.g., waterlogging probabilities) before they occur.
-*   **Methodology**: Model historical time-series datasets alongside daily environmental inputs (rainfall, elevation data, river level feeds) using XGBoost classifiers and LSTM networks.
-*   **Evaluation Metrics**: Area Under the ROC Curve (AUC-ROC, target $\ge 0.85$) and Mean Absolute Percentage Error (MAPE).
-
-#### Objective 6 — Civic Hotspot Detection
-*   **Technical Goal**: Isolate persistent geographic concentrations of public service issues.
-*   **Methodology**: Run **DBSCAN** or **HDBSCAN** spatial clustering algorithms on latitude and longitude coordinates. Apply Kernel Density Estimation (KDE) to generate smooth risk heatmaps.
-*   **Evaluation Metrics**: Silhouette Coefficient of detected spatial clusters.
-
-#### Objective 7 — Intelligent Prioritization
-*   **Technical Goal**: Generate a prioritized queue of active incidents.
-*   **Methodology**: Apply Multi-Criteria Decision Analysis (MCDA). The priority score is computed as a weighted linear combination of severity, vulnerability indices, recurrence metrics, and environmental risk.
-*   **Evaluation Metrics**: Queue alignment comparison against manual dispatch order.
-
-#### Objective 8 — Resource Allocation Optimization
-*   **Technical Goal**: Maximize resolved community impact by scheduling optimal dispatches under constrained resources.
-*   **Methodology**: Formulate and solve an **Integer Linear Programming (ILP)** problem. Define decision variables, linear constraints (personnel, vehicles, budgets, working hours), and maximize the objective function using Google OR-Tools.
-*   **Evaluation Metrics**: Dispatch operational cost reductions and response time reductions compared to a greedy baseline.
-
-#### Objective 9 — What-If Simulation
-*   **Technical Goal**: Provide administrators with a sandbox workspace to model changes in system inputs.
-*   **Methodology**: Recalculate priority queues and ILP constraints in real-time when inputs are modified (e.g., adding personnel or simulating high rainfall).
-*   **Evaluation Metrics**: Database recomputation latency (target $\le 1.5$ seconds for 1,000 active nodes).
-
-#### Objective 10 — Explainable AI (XAI)
-*   **Technical Goal**: Generate human-interpretable justifications for AI classifications and optimization choices.
-*   **Methodology**: Implement SHAP (SHapley Additive exPlanations) values to explain ML predictions, alongside a detailed cost-benefit report showing selected vs. rejected alternatives.
-*   **Evaluation Metrics**: User comprehension ratings collected via controlled administrator feedback surveys.
+1.  **Intelligent Civic Issue Understanding**: Build an NLP model that reads citizen complaint text and automatically extracts the category (e.g., Water Leakage), duration, and urgency tags.
+2.  **Multimodal Civic Analysis**: Create a processing pipeline that combines the complaint description and the uploaded photo to assess the problem.
+3.  **Duplicate Incident Detection**: Create a simple similarity matcher that checks if newly submitted complaints are within a 120-meter radius of an active issue and describe the same problem, grouping them together.
+4.  **Civic Severity Prediction**: Classify the severity of an incident (Low, Medium, High, Critical) based on the image, the category, and location factors.
+5.  **Predictive Civic Risk**: Build a forecasting module that calculates localized environmental risk (such as waterlogging probability) using historical occurrences and daily rainfall data.
+6.  **Civic Hotspot Detection**: Implement a spatial clustering map (using standard algorithms like DBSCAN) to highlight areas on the city map where complaints are heavily concentrated.
+7.  **Intelligent Prioritization**: Rank active incidents dynamically in a queue based on how urgent they are (e.g., flooding near a hospital is placed at the top).
+8.  **Resource Allocation Optimization**: Build a scheduling calculator (using tools like Google OR-Tools) to recommend which available workers and vehicles should be sent to resolve the prioritized incidents first.
+9.  **What-If Simulation**: Create a simple sandbox page where the administrator can adjust sliders (e.g., adding extra teams or simulating heavy rain) to see how it affects resolution times.
+10. **Explainable AI**: Show clear, plain-language text reasons (e.g., "+25 Urgency due to School Proximity") explaining why specific actions are prioritized.
 
 ---
 
-### Software Engineering vs. Academic Research Boundaries
-To ensure project structure, the system is strictly split between software engineering deliverables and academic research questions:
+### Project Scope Boundaries
+
+To organize our workflow, our project is divided into Software Engineering tasks and AI/ML Research tasks:
 
 ```mermaid
 graph TD
     subgraph Software Engineering
-        SE1["React Frontend UI / SPA"]
-        SE2["FastAPI REST API Routing"]
-        SE3["PostgreSQL / PostGIS Spatial DB"]
-        SE4["Celery Async Task Queues"]
+        SE1[React Web Portal UI & Leaflet Map]
+        SE2[FastAPI Async API Backend]
+        SE3[PostgreSQL & PostGIS Database]
+        SE4[Celery Background Task Scheduler]
     end
-    subgraph Academic Research
-        AR1["Multimodal Late-Fusion Layers"]
-        AR2["Coordinate Weight Formulas"]
-        AR3["Spatial DBSCAN Density Parameters"]
-        AR4["Constrained ILP Formulations"]
+    subgraph AI/ML Research & Optimization
+        AR1[Multimodal Text + Image Classification]
+        AR2[DBSCAN Spatial Hotspot Clustering]
+        AR3[OR-Tools Resource Solver]
+        AR4[SHAP-Based Priority Justifications]
     end
 ```
 
@@ -84,4 +48,5 @@ graph TD
 ## Related Documents
 - [Project Overview](01-project-overview.md)
 - [Research Focus](../13-research/01-research-overview.md)
-- [Experimental Design](../13-research/04-experimental-design.md)
+- [Technology Stack](../14-implementation/01-technology-stack.md)
+- [MVP Scope](../14-implementation/03-mvp-scope.md)

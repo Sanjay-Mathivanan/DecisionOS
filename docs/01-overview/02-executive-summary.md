@@ -1,81 +1,51 @@
 # Executive Summary
 
 ## Purpose
-This document provides an executive-level summary of the DecisionOS Civic system, detailing its deployment modes, sandbox testing methodology, and structured project feasibility matrices.
+This document provides a simple, high-level summary of the DecisionOS Civic system, our deployment approach, and the feasibility of building this for our final-year project.
 
 ## Content
 
-### The Problem
-Modern municipal organizations receive hundreds of unstructured, multi-channel reports daily. Traditional tools function as simple databases for registering tickets and manual forwarding. This reactive approach leads to:
-*   Redundant field crew dispatches due to duplicate reports (e.g., multiple citizens reporting the same pothole).
-*   Inefficient task prioritization, where cosmetic issues may be addressed before critical hazards.
-*   Poor resource allocation, failing to solve the complex coordination of personnel, vehicles, and budgets under constraints.
+### The Core Problem
+Conventional grievance portals (like citizen complaint apps or city websites) act as simple message logs. They receive complaints, route them manually to departments, and track tickets. They do not help city offices understand:
+*   Which issues are most critical or urgent.
+*   Whether multiple complaints refer to the exact same problem.
+*   How to allocate limited teams, vehicles, and budgets to get the most work done.
 
 ### The Solution
-DecisionOS Civic introduces a **Decision Intelligence Layer** above raw municipal systems. It is built to:
-1.  **Understand**: Parse citizen text and images concurrently to determine damage severity.
-2.  **Consolidate**: Cluster overlapping complaints into a single core incident using geospatial-temporal similarity.
-3.  **Predict**: Model localized hazard probabilities before incident reports escalate.
-4.  **Optimize**: Dynamically match workers, specialized equipment, and budgets to active incidents using Integer Linear Programming (ILP).
-5.  **Explain**: Provide officers with visible justifications (SHAP feature values and travel cost metrics) for all suggested dispatches.
+DecisionOS Civic acts as an **intelligent support system** for municipal officers. It does not replace current systems; instead, it consumes complaint data, runs AI models to clean and group duplicates, ranks them by urgency, and recommends the best schedule for sending workers to fix the problems.
 
 ---
 
-### Two-Mode Deployment Strategy
-To guarantee feasibility for academic final-year projects and professional pilots without relying on pre-existing government database credentials, DecisionOS Civic operates in two distinct modes:
+### Two Project Modes
+To ensure our final-year project is fully feasible without needing access to real government databases or credentials, we define two modes of operation:
 
-```mermaid
-flowchart TD
-    subgraph Mode A: Academic Sandbox Mode
-        Pub[Public Datasets: data.gov.in] --> CoreOS[DecisionOS Core Engine]
-        Synth[Synthetic Resource Sheets] --> CoreOS
-        Coll[Self-Collected Field Images] --> CoreOS
-        CoreOS --> DemoApp[Demo Dashboard UI]
-    end
-
-    subgraph Mode B: Government Pilot Mode
-        GovApp[Authorized Government Portals] --> IG[Integration Gateway]
-        IG --> CoreOS_B[DecisionOS Core Engine]
-        CoreOS_B --> recommendation[Optimized Recommendations]
-        recommendation --> human[Authorized Officer Approval]
-        human --> Action[Existing Department Dispatch]
-    end
-```
-
-*   **Mode A (Academic/Demonstration Mode)**: Sourced entirely from public government datasets, self-collected field pictures, and synthetic constraint sheets. Fully functional without institutional partnership.
-*   **Mode B (Government Pilot Mode - Future Scope)**: Operates inside municipal networks, consuming complaints from existing portals (like CPGRAMS or UMANG) via the **Integration Gateway**, and sending optimized dispatches back to departmental queues.
+*   **Mode A: Academic / Demo Mode (Must Build)**: 
+    *   This is what we will build and show to the project guide and examiners.
+    *   It runs independently using public datasets (like weather and demographic data), citizen photos we collect ourselves, and synthetic (simulated) data for testing resource scheduling.
+*   **Mode B: Government Pilot Mode (Future Scope)**:
+    *   This is how the system would connect to a real municipality in the future.
+    *   It would consume live data from official municipal systems (like CPGRAMS or UMANG) via secure APIs and return recommendations to city officers.
 
 ---
 
-### Quantitative Feasibility Assessment
+### Project Component Feasibility
+The table below outlines our team's assessment of how feasible it is to implement each module of DecisionOS Civic for our final-year project:
 
-The following feasibility matrix details the implementation feasibility score of each system component based on testing and baseline availability:
-
-| System Component | Feasibility Score | Core Technologies | Feasibility Justification |
-|---|---|---|---|
-| **Web Platform Dashboard** | **95%** | React, TypeScript, Leaflet, Tailwind CSS | Standard web architecture with mature open-source map libraries. |
-| **NLP Subsystem** | **90%** | Python, FastAPI, DistilBERT, Transformers | High availability of pre-trained Hugging Face language baselines. |
-| **Computer Vision (CV)** | **85%** | PyTorch, YOLOv8, OpenCV | Requires localized model training on pothole/crack datasets. |
-| **Duplicate Clustering** | **90%** | Cosine Similarity, DBSCAN | Well-documented mathematical clustering patterns. |
-| **GIS Proximity Engine** | **90%** | PostgreSQL, PostGIS, GeoPandas | Mature spatial indexing algorithms (R-tree). |
-| **Risk Prediction Engine** | **85%** | XGBoost, LSTM | Time-series forecasting reliant on meteorological datasets. |
-| **Optimization Engine** | **85%** | Google OR-Tools, PuLP | Standard Integer Linear Programming (ILP) solver configurations. |
-| **Explainable AI (XAI)** | **90%** | SHAP, Feature Weights | Simple linear models facilitate direct explanation tracking. |
-| **What-if Simulator** | **80%** | Scenario Comparison Matrices | Involves dynamic recomputations of linear constraints. |
-| **Academic Sandbox Setup** | **95%** | Python, Mock Data Generators | Direct mock database instantiation without external dependencies. |
-| **Real Government Sync** | **40%** | REST APIs, OAuth2 Gateway | Severely restricted due to institutional authorization hurdles. |
+| Project Component | Feasibility Rating | What We Need |
+|---|---|---|
+| **Web Platform (UI)** | **95%** | React and Map libraries (Leaflet) to display complaints on a city map. |
+| **NLP Text Classifier** | **90%** | Pre-trained text models (BERT) to classify complaint text automatically. |
+| **Computer Vision (CV)** | **85%** | Object detection models (YOLOv8) trained on road damage photos. |
+| **Duplicate Detector** | **90%** | Simple calculations to check if reports are near each other and describe the same issue. |
+| **Risk Mapping** | **85%** | Standard time-series models to predict flooding or road decay probability. |
+| **Resource Allocator** | **85%** | Basic optimization solvers (Google OR-Tools) to schedule workers and trucks. |
+| **What-if Simulator** | **80%** | Simple calculators to compare current resolution times against simulated resource changes. |
+| **Real Government Integration**| **40%** | Not feasible for a college project; marked as future scope (Mode B). |
 
 ---
 
-### Coimbatore Municipal Sandbox Setup
-For prototype verification, the platform initializes a fictional municipal environment:
-*   **Target Identifier**: *Coimbatore Municipal Decision Intelligence Sandbox* (Coimbatore Smart Civic Pilot).
-*   **Mock Administration Structure**:
-    *   **Roads Department**: 3 repair crews, 2 asphalt trucks, ₹2L budget.
-    *   **Water Department**: 2 repair teams, 1 tanker, ₹1.5L budget.
-    *   **Drainage Department**: 2 crews, 1 excavator, ₹1L budget.
-    *   **Waste Management**: 2 trucks, 4 workers, ₹50k budget.
-*   **Verification Objective**: Demonstrate how a single pothole report in Zone 4 triggers a YOLOv8 detection, groups with 5 other reports, ranks at 83 priority, and receives an optimized patch crew dispatch in under 3 seconds.
+### Sandbox Municipality (Coimbatore Pilot)
+For our project demonstration, we will set up a mock environment called the **Coimbatore Municipal Decision Intelligence Sandbox**. We will create a fictional but realistic set of departments (Roads, Water, Waste, Drainage) with specific worker pools and budgets to demonstrate how the AI schedules repairs dynamically.
 
 ---
 *Source basis: DecisionOS Civic source document*
