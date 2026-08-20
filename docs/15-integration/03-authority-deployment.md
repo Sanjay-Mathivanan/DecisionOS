@@ -16,6 +16,17 @@ Initial pilots are deployed inside fictional municipality sandboxes:
 - Waste Management
 - Disaster Management
 
+### Fictional Sandbox Hierarchy
+```mermaid
+flowchart TD
+    OS[DecisionOS Sandbox Core]
+    OS --> Roads[Roads Dept]
+    OS --> Water[Water Dept]
+    OS --> Drainage[Drainage Dept]
+    OS --> Waste[Waste Management]
+    OS --> Disaster[Disaster Management]
+```
+
 ## Related Documents
 - [Government Integration](01-government-integration.md)
 - [Team Responsibilities](../14-implementation/06-team-responsibilities.md)
