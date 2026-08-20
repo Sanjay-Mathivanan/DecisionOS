@@ -14,7 +14,12 @@ Every action must record:
 - `WHEN`: Timestamp.
 - `WHY`: Required text explanation for overrides.
 
-`AI Recommendation ──► Review Panel ──► Officer Decision + Override Reason ──► Audit Log`
+```mermaid
+flowchart LR
+    Rec[AI Recommendation] --> Review[Review Panel]
+    Review --> Decision[Officer Decision + Override Reason]
+    Decision --> Log[Audit Log]
+```
 
 This guarantees complete traceability for judicial or administrative reviews.
 
