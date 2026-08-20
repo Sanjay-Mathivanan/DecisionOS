@@ -12,7 +12,7 @@ This document lists the programming languages, frameworks, and tools proposed fo
 | **Backend** | Python, FastAPI | High-performance async endpoints. |
 | **Database** | PostgreSQL, PostGIS, Redis | Fast geospatial indexing. |
 | **AI/ML** | PyTorch, Hugging Face (BERT), OpenCV, XGBoost | Machine learning frameworks. |
-| **Optimization**| Google OR-Tools, PuLP | Robust ILP solving capabilities. |
+| **Optimization**| Google OR-Tools, PuLP | Robust resource scheduling capabilities. |
 | **DevOps** | Docker, Nginx, GitHub Actions | Standard containerized deployment. |
 
 ## Related Documents

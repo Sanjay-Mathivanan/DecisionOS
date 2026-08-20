@@ -5,7 +5,7 @@ This document describes advanced features to be implemented after the MVP.
 
 ## Content
 ### Planned Advanced Capabilities
-- **Temporal Fusion Transformers (TFT)**: Replacing XGBoost to provide multi-step risk forecasts.
+- **Advanced Time-Series Models**: Replacing XGBoost to provide multi-step risk forecasts and predictions.
 - **Dynamic Cost Matrix**: Integrating MapLibre router metrics to update solver travel times using real-time traffic statistics.
 
 ## Related Documents

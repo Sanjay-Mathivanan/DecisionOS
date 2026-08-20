@@ -7,8 +7,11 @@ This document defines the boundary of the Minimum Viable Product (MVP).
 ### MVP Boundaries
 To prevent scope creep, the MVP focuses on a single, complete end-to-end loop:
 
-```
-[Citizen Road Damage Complaint] ──► [YOLO Detection] ──► [Priority Score] ──► [OR-Tools Dispatch]
+```mermaid
+flowchart LR
+    A[Citizen Road Damage Report] --> B[YOLO Detection]
+    B --> C[Priority Queue Ranking]
+    C --> D[OR-Tools Dispatch Solver]
 ```
 
 ### Scope Divisions
@@ -16,7 +19,7 @@ To prevent scope creep, the MVP focuses on a single, complete end-to-end loop:
 #### Must Build (MVP)
 - Citizen PWA submission form (Photo + GPS).
 - Multimodal similarity engine (duplicate detection).
-- Basic Integer Linear Programming resource solver.
+- Basic resource scheduling solver.
 - Officer Approve/Override dashboard.
 
 #### Advanced / Optional
