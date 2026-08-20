@@ -6,23 +6,18 @@ This document describes the layered software architecture of DecisionOS Civic.
 ## Content
 ### Architectural Layers
 
-```
-┌────────────────────────────────────────────────────────┐
-│                    Presentation Layer                  │
-│       React SPA / Leaflet Maps / Tailwind CSS UI       │
-├────────────────────────────────────────────────────────┤
-│                       API Layer                        │
-│            FastAPI REST API / JSON Web Tokens          │
-├────────────────────────────────────────────────────────┤
-│                   Business Logic Layer                 │
-│ NLP/CV Inference / Similarity Clustering / OR-Tools    │
-├────────────────────────────────────────────────────────┤
-│                   Data Access Layer                    │
-│        SQLAlchemy ORM / PostGIS Spatial Queries        │
-├────────────────────────────────────────────────────────┤
-│                      Database Layer                    │
-│               PostgreSQL / PostGIS / Redis             │
-└────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    UI[Presentation Layer<br/>React SPA / Leaflet / Tailwind]
+    API[API Layer<br/>FastAPI / JWT]
+    Logic[Business Logic Layer<br/>NLP / CV / OR-Tools]
+    Data[Data Access Layer<br/>SQLAlchemy ORM / PostGIS]
+    DB[Database Layer<br/>PostgreSQL / PostGIS / Redis]
+    
+    UI --> API
+    API --> Logic
+    Logic --> Data
+    Data --> DB
 ```
 
 ### Decoupling Strategy

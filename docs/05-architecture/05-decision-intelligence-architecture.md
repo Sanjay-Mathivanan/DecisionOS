@@ -10,9 +10,7 @@ DecisionOS Civic acts strictly as a decision-support system. It houses:
 2. **Optimization Engine**: Maps resources to problems.
 3. **Explainability Engine (XAI)**: Generates human-readable descriptions of optimization outcomes.
 
-```
-[Predictions & Priorities] ──► [Optimization Solver] ──► [XAI Explainer] ──► [Human Approval Panel]
-```
+`Predictions & Priorities ──► Optimization Solver ──► XAI Explainer ──► Human Approval Panel`
 
 This guarantees transparency and human oversight at all operational steps.
 

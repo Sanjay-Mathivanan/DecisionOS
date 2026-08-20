@@ -4,14 +4,13 @@
 This document explains the multi-criteria prioritization logic of DecisionOS Civic.
 
 ## Content
-### Priority Scoring Formula
-The priority score determines the order of the municipal work queue:
-
-\[
-	ext{Priority} = 0.30 \cdot 	ext{Severity} + 0.20 \cdot 	ext{Population Impact} + 0.15 \cdot 	ext{Recurrence} + 0.15 \cdot 	ext{Location Vulnerability} + 0.10 \cdot 	ext{Infrastructure Importance} + 0.10 \cdot 	ext{Environmental Risk}
-\]
-
-*Note: The weights above are proposed baselines and must be experimentally evaluated rather than arbitrarily claimed to be optimal.*
+### Priority Scoring
+The priority score determines the order of the municipal work queue. It is calculated by combining several core factors:
+*   **Severity**: How bad the physical damage is (Low, Medium, High, Critical).
+*   **Population Impact**: How many citizens are affected by the issue.
+*   **Recurrence**: Whether this is a recurring problem in the area.
+*   **Location Vulnerability**: Proximity to critical sites like hospitals or schools.
+*   **Environmental Risk**: Localized environmental risks (e.g., flood risk due to rain).
 
 ### Example Queue
 1. **Flood near hospital**: Priority = 97
