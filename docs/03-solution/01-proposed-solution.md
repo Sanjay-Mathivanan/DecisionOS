@@ -1,50 +1,47 @@
 # Proposed Solution: DecisionOS Civic
 
 ## Purpose
-This document presents the detailed architectural and operational parameters of **DecisionOS Civic** as a decision-support layer for public authorities.
+This document presents the architecture and core software layers of **DecisionOS Civic** as a decision-support system.
 
 ## Content
 
-### Sits-Above Integration Middleware
-DecisionOS Civic is not built to replace existing municipal databases, customer portals, or national grievance management portals (such as CPGRAMS or UMANG). Instead, the platform is engineered as an **AI-Powered Middleware Integration Layer** that processes data from existing systems and feeds optimized results back to municipal supervisors.
+### Sits-Above Integration Layer
+DecisionOS Civic is not designed to replace existing municipal portals. Instead, it is built as an **intelligent middleware layer** that sits above existing databases and complaint tools:
 
 ```
 ┌──────────────────────────────────────┐
-│     Existing Grievance Systems       │ (CPGRAMS, UMANG, Web Portals)
+│     Existing Grievance Systems       │ (CPGRAMS, UMANG, Web Apps)
 └──────────────────┬───────────────────┘
                    │
-                   ▼ (REST APIs / Webhooks / CSV Ingestion)
+                   ▼ (REST APIs / Webhooks / CSV Uploads)
 ┌──────────────────────────────────────┐
 │           DECISIONOS CIVIC           │
-│  - AI Multimodal Inference Engine    │ (NLP Category Extractor, CV Object Detector)
-│  - Spatial-Temporal Clustering       │ (DBSCAN duplicate grouping)
-│  - Dynamic Prioritization Module     │ (0-100 Weighted scoring)
-│  - Mathematical Dispatch Optimization│ (Integer Linear Programming Solver)
-│  - Explainable Recommendations       │ (SHAP Feature Importance & Cost-Benefit logs)
+│  - AI Ingestion & Classification     │ (NLP reads text, CV reads photos)
+│  - Duplicate Checking & Clustering   │ (Groups matching tickets together)
+│  - Priority Ranking Queue            │ (Sorts issues by urgency)
+│  - Resource Allocation Scheduler     │ (Recommends dispatches using OR-Tools)
 └──────────────────┬───────────────────┘
                    │
-                   ▼ (Supervisor Dashboard Queue)
+                   ▼ (Supervisor Review Queue)
 ┌──────────────────────────────────────┐
-│    Authorized Municipal Decisions    │ (Approve / Override with reason log)
+│    Authorized Municipal Decisions    │ (Approve / Override with reason logs)
 └──────────────────┬───────────────────┘
                    │
-                   ▼ (Worker Dispatch commands)
+                   ▼ (Field dispatch instructions)
 ┌──────────────────────────────────────┐
-│     Existing Departmental Queues     │ (Roads, Water, Waste, Disaster Teams)
+│     Existing Departmental Queues     │ (Roads, Water, Waste, Drainage Teams)
 └──────────────────────────────────────┘
 ```
 
 ---
 
-### Core Engineering Components
+### Core Software Stack
+Our project is built using a modern, decoupled stack:
 
-The system decouples data ingestion, AI inference, and optimization solving to ensure high throughput:
-
-1.  **Frontend Single Page Application (SPA)**: Built using React and TypeScript. Integrates Leaflet and MapLibre for localized spatial coordinate rendering, incident heatmaps, and route updates.
-2.  **FastAPI API Gateway**: An asynchronous Python backend that handles JWT verification, complaint creation, database queries, and simulation execution.
-3.  **Celery Distributed Task Queue**: Offloads high-computation AI modeling (PyTorch, Hugging Face BERT) and optimization solving (Google OR-Tools) to asynchronous worker pools, preventing API network timeouts.
-4.  **Spatial Relational Database**: PostgreSQL with the **PostGIS** extension, enabling high-performance spatial-temporal indexing and R-tree clustering queries.
-5.  **In-Memory Storage (Redis)**: Backs the Celery message broker and handles short-term session counts.
+1.  **Frontend (Web UI)**: Built with **React** and **TypeScript**. We use **Leaflet** maps to display complaints, hotspots, and vehicle routes.
+2.  **Backend (API)**: Built with **FastAPI** (Python). This handles JWT login security, database queries, and simulator runs.
+3.  **Task Scheduler**: We use **Celery** with **Redis** to run heavy computations (like vision processing and scheduling calculations) in the background, keeping the web page fast and responsive.
+4.  **Database**: **PostgreSQL** with the **PostGIS** extension to support map-based spatial queries and proximity matching.
 
 ---
 *Source basis: DecisionOS Civic source document*

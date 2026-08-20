@@ -1,27 +1,27 @@
 # How DecisionOS Civic Works
 
 ## Purpose
-This document explains the step-by-step logic of the DecisionOS processing pipeline, including pseudocode and mathematical scoring formulas.
+This document explains the step-by-step logic of the DecisionOS processing pipeline, including developer pseudocode and ranking criteria.
 
 ## Content
 
 ### The 10-Step Processing Loop
 
-1.  **Ingestion**: Citizen uploads a ticket (description, photograph, raw coordinates) to `/api/v1/complaints`.
-2.  **Linguistic Classification (NLP)**: The text is tokenized. A fine-tuned transformer model (DistilBERT) predicts the issue category (e.g., `Road Damage`) and extracts details.
-3.  **Visual Classification (CV)**: The image passes to a YOLOv8 bounding-box detector to locate potholes or cracks, and an EfficientNet classifier scores visual severity.
-4.  **Spatial-Temporal Triage**: The PostGIS database queries active `Incidents` within a 120-meter buffer.
-5.  **Duplicate Assessment**: A similarity engine evaluates combined cosine similarity (text + image + distance). If $\text{Similarity} \ge 0.82$, the complaint is linked to the existing `Incident`.
-6.  **Recurrence Analysis**: The database checks for historical complaints at the coordinates over the past 90 days.
+1.  **Ingestion**: Citizen uploads a ticket (description, photo, GPS coordinates).
+2.  **Linguistic Classification (NLP)**: The text is cleaned, and a model (DistilBERT) extracts the category and urgency.
+3.  **Visual Classification (CV)**: The photo passes to a detector (YOLOv8) to locate the damage (e.g., a pothole) and score visual severity.
+4.  **Spatial-Temporal Triage**: The database checks for existing incidents within a 120-meter radius.
+5.  **Duplicate Assessment**: A similarity engine calculates if the new complaint matches an active incident. If it does, it links the complaint to avoid duplicate dispatches.
+6.  **Recurrence Analysis**: The database checks for previous complaints in the area over the past 90 days.
 7.  **Impact Rating**: Exposure is calculated based on population density and proximity to key assets (schools/hospitals).
-8.  **Prioritization Ranking**: The incident is assigned a Priority Score (0-100) using a weighted MCDA formula.
-9.  **Constrained Optimization**: Google OR-Tools solves an Integer Linear Programming model, outputting optimal dispatch recommendations.
-10. **Explainable AI (XAI)**: SHAP values and cost-benefit arguments are compiled, and the recommendations are presented on the supervisor's dashboard.
+8.  **Prioritization Ranking**: The incident is assigned a Priority Score (0-100) based on severity and exposure factors.
+9.  **Constrained Optimization**: Google OR-Tools schedules worker dispatches to resolve the most critical issues first.
+10. **Explainable AI (XAI)**: Simple, text-based explanations are generated for the officer's dashboard.
 
 ---
 
 ### Core Pipeline Loop Pseudocode
-The following pseudocode outlines the execution sequence of the core processing loop when a new complaint is received:
+The following pseudocode outlines the execution sequence of the core processing loop:
 
 ```python
 def process_new_complaint(complaint_data):
@@ -34,7 +34,7 @@ def process_new_complaint(complaint_data):
     cv_results = cv_model.detect_fault(complaint_data.image_path)
     cv_severity = cv_results.severity_score # 0 - 100
     
-    # Step 4 & 5: Spatial-Temporal Duplicate Checks (PostGIS Buffer)
+    # Step 4 & 5: Spatial Duplicate Checks
     active_incidents = db.query_incidents_in_radius(
         lat=complaint_data.latitude, 
         lon=complaint_data.longitude, 
@@ -89,20 +89,13 @@ def process_new_complaint(complaint_data):
 
 ---
 
-### Priority Score Weighted Formula
-The priority score determines queue rank and is calculated as:
-
-$$
-\text{Priority} = w_s \cdot S + w_p \cdot P_e + w_r \cdot R + w_v \cdot V_i + w_f \cdot F_r
-$$
-
-Where:
-*   $S$: Severity score (0-100).
-*   $P_e$: Population exposure factor.
-*   $R$: Recurrence index (counts over past 90 days).
-*   $V_i$: Location vulnerability index (proximity to hospitals, schools).
-*   $F_r$: Localized environmental flood risk probability.
-*   $w_s, w_p, w_r, w_v, w_f$: Variable weights. Target baseline weights: $w_s = 0.30, w_p = 0.20, w_r = 0.15, w_v = 0.15, w_f = 0.20$.
+### Priority Scoring Criteria
+The system calculates priority by combining five core factors, which are weighted based on city policies:
+*   **Severity**: The physical extent of the damage (e.g., deep pothole vs. small crack).
+*   **Population Exposure**: How many people are affected (e.g., busy high-traffic road vs. quiet side street).
+*   **Recurrence**: How often complaints have occurred here over the past 90 days.
+*   **Location Vulnerability**: Proximity to critical facilities (e.g., hospitals, schools).
+*   **Environmental Flood Risk**: Probability of waterlogging from rain.
 
 ---
 *Source basis: DecisionOS Civic source document*

@@ -1,45 +1,37 @@
 # Problem Statement
 
 ## Purpose
-This document presents the detailed problem statement, background context, and computational challenges that arise from modern municipal infrastructure demands.
+This document presents the problem statement, background context, and the everyday issues that local municipal offices face when managing public services.
 
 ## Content
 
 ### Background
-As urban populations expand rapidly, local municipal corporations are faced with massive volumes of civic infrastructure reports daily. Municipalities are responsible for maintaining a wide array of public assets:
-*   Road networks (potholes, structural cracks, asphalt degradation).
-*   Water supply pipelines (leakages, bursts, pressure losses).
-*   Drainage networks (sewer blockages, open manholes, runoff overflow).
-*   Solid waste systems (overflowing garbage bins, illegal dumping sites).
-*   Electrical grids (broken streetlights, hanging power lines).
+As cities grow, local municipal offices receive large volumes of information about public infrastructure problems daily. Examples of these issues include:
+*   Damaged roads and potholes.
+*   Water line leakages.
+*   Drainage blockages and overflow.
+*   Accumulation of garbage.
+*   Broken streetlights and environmental hazards.
 
-This information arrives continuously through multiple citizen channels, hotlines, mobile apps, and environmental sensors.
-
----
-
-### The Operational Burden of Ingestion
-With the digitization of civic reporting, the volume of incoming tickets has grown exponentially. However, municipal staffing and maintenance budgets have remained static or decreased. This imbalance creates:
-1.  **Administrative Bottlenecks**: Clerical staff spend hours manually reading, categorizing, and routing individual complaints.
-2.  **Alert Fatigue**: Department supervisors are flooded with duplicate tickets for the same high-profile issues, leading to critical, lower-profile issues being ignored.
-3.  **Backlog Escalation**: Without automated prioritization, older tickets are handled first (FIFO), regardless of their actual community impact or safety hazards.
-
-```
-[Raw Civic Data Streams] ──► [Manual Clerical Ingestion] ──► [Administrative Backlog] ──► [Delayed Resolution]
-```
+This information comes from different sources, such as phone calls, citizen complaints on websites, and photos taken on mobile apps.
 
 ---
 
-### The Core Computational Challenge
-The central problem for modern smart governance is not simply collecting citizen feedback. Rather, it is defined as:
+### The Core Problem
+The main challenge local authorities face is not just collecting these complaints, but rather:
 
-$$
-\text{How can heterogeneous, fragmented civic data be transformed into reliable, predictive, and explainable decisions?}
-$$
+**How can we transform all these different complaints (text, photos, locations) into clear, reliable, and explainable decisions that help city workers fix issues quickly and allocate limited resources efficiently?**
 
-To resolve this challenge, the system must bridge the gap between raw data ingestion and human operational action:
-*   **Data Heterogeneity**: Merging unstructured text, raw imagery, geospatial coordinates, and historical tables into a unified data structure.
-*   **Predictive Operations**: Moving from a reactive posture (waiting for a pipe to burst) to a predictive posture (using pressure drift to schedule maintenance).
-*   **Explainable Resource Routing**: Solving multi-constraint scheduling problems (workers, vehicles, budgets) and providing transparent justifications to human supervisors.
+### The Practical Challenge
+In current systems, every report is treated independently:
+*   If 50 citizens report a **"large pothole near the school"**, a conventional system will register 50 separate complaints.
+*   This creates massive administrative paperwork.
+*   Workers are dispatched to the same location multiple times because there is no automated system to check for duplicates.
+*   There is no intelligent system to flag that this is a recurring issue or that the area has a high future risk.
+
+```
+[Raw Civic Reports] ──► [Manual Ingestion & Sorting] ──► [Backlog & Duplicate Dispatches]
+```
 
 ---
 *Source basis: DecisionOS Civic source document*

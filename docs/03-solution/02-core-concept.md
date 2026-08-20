@@ -1,7 +1,7 @@
 # Core Concept
 
 ## Purpose
-This document explains the core conceptual model of DecisionOS Civic, detailing the integration of heterogeneous inputs and system constraints.
+This document explains how DecisionOS Civic combines different inputs and operational constraints.
 
 ## Content
 

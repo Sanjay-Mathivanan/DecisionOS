@@ -1,68 +1,42 @@
 # Existing System
 
 ## Purpose
-This document conducts a technical analysis of conventional civic grievance-management systems, their workflows, and their core relational database limitations.
+This document explains how current grievance-tracking portals work, their manual steps, and their basic database limits.
 
 ## Content
 
-### Conventional Grievance Workflow
-Conventional grievance platforms function primarily as simple ticket-routing forms. The typical lifecycle of a complaint in these systems follows a rigid, linear sequence:
+### How Current Systems Work
+Most municipal complaints applications used today are basic digital forms. The typical process is:
 
-1.  **Citizen Submission**: A citizen submits a ticket containing a text description. Coordinates are often missing, inaccurate, or entered as string text (e.g., "near bus stand").
-2.  **Ticket Registration**: The system assigns a unique ticket ID and stores the record in a flat relational table.
-3.  **Manual Triage**: A clerical administrator reviews the ticket queue, reads the description, and manually routes it to a target department (e.g., Water Department).
-4.  **Ad-Hoc Supervisor Allocation**: The department supervisor manually reviews their queue and assigns the task to a worker, often based on proximity to the worker's home base or convenience rather than overall resource efficiency.
-5.  **Manual Resolution**: The field worker travels to the site, performs the repairs, and manually marks the ticket as closed.
-
----
-
-### Process Lifecycle Sequence
-
-The diagram below tracks a complaint's lifecycle, illustrating the manual bottlenecks and delays present in conventional platforms:
+1.  **Citizen Reports**: A citizen types a complaint (e.g., "pothole on Main Road"). Often, exact GPS coordinates are missing or typed manually as text (e.g., "opposite the bus stand").
+2.  **Complaint Registered**: The ticket is saved in the database with a status of "Open".
+3.  **Manual Routing**: A clerk has to read the ticket description and decide which department should handle it (e.g., forwarding it to the Roads Department).
+4.  **Worker Assigned**: The department supervisor manually selects a field worker and assigns the task.
+5.  **Resolution**: The worker travels to the site, fixes the problem, and marks the ticket as closed.
 
 ```mermaid
 sequenceDiagram
-    autonumber
     actor Citizen
-    participant Sys as Conventional Portal
-    actor Admin as Clerical Triage
+    participant App as Grievance Portal
+    actor Clerk as Manual Triager
     actor Supervisor
     actor Worker
 
-    Citizen->>Sys: Submit Complaint (Text, missing/manual GPS)
-    Sys->>Sys: Generate Ticket ID (Siloed Entry)
-    Note over Sys: Ticket is placed in a flat FIFO queue
-    Admin->>Sys: Read queue & manually categorize
-    Admin->>Supervisor: Forward Ticket to Department
-    Note over Supervisor: Backlog builds up without prioritization
-    Supervisor->>Worker: Assign Worker (Manual/Arbitrary choice)
-    Worker->>Sys: Travel to site & resolve task
-    Worker->>Sys: Mark Ticket as Closed
-    Sys->>Citizen: Notify Status: Closed
+    Citizen->>App: Submits report (Text, missing GPS)
+    App->>App: Registers Ticket (Siloed Entry)
+    Clerk->>App: Reads and manually assigns department
+    Clerk->>Supervisor: Forwards to department queue
+    Supervisor->>Worker: Manually assigns to a field worker
+    Worker->>App: Resolves repair and closes ticket
 ```
 
 ---
 
-### Database Schema Limitations
-In conventional systems, the database model is flat and lacks spatial-temporal awareness. 
-
-#### typical Relational Schema
-```sql
-CREATE TABLE complaints (
-    id SERIAL PRIMARY KEY,
-    citizen_name VARCHAR(100),
-    description TEXT,
-    address_text VARCHAR(255),
-    status VARCHAR(50), -- 'Open', 'Pending', 'Closed'
-    created_at TIMESTAMP,
-    closed_at TIMESTAMP
-);
-```
-
-#### Core Database Limitations:
-1.  **Lack of Spatial Indexing**: Location is stored as unstructured text (`address_text`) rather than PostGIS geometry points. This prevents R-tree indexing and bounding-box queries, making it impossible to perform automated proximity checks.
-2.  **No Clustering Support**: Every row is treated as an independent ticket. There are no relational mappings (`IncidentReports`) to cluster duplicate reports together.
-3.  **No Resource Constraints**: The database does not model available personnel, vehicle types, travel distances, or budgets. Optimization solvers cannot be connected because the necessary mathematical parameters do not exist in the schema.
+### Database Limitations of Current Systems
+Current databases are structured like simple spreadsheets:
+*   **No Location Intelligence**: Location is stored as simple text (like "12th street"). Since it is not stored as coordinate points, the database cannot calculate distances or search for nearby reports automatically.
+*   **Treats Every Report Separately**: There is no logical link to group reports together. If 10 citizens report the same leak, the database stores 10 separate rows, leading to duplicate work.
+*   **No Resource Management**: The system does not store details about available tools, crew capacities, or travel distances, making it impossible to schedule work automatically.
 
 ---
 *Source basis: DecisionOS Civic source document*

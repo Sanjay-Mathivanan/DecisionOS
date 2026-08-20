@@ -1,46 +1,41 @@
 # Problem Analysis
 
 ## Purpose
-This document presents a detailed analysis of unstructured civic data anomalies, detailing NLP linguistic variations and Computer Vision image drifts.
+This document analyzes the practical issues that arise when processing unstructured citizen reports (text and images).
 
 ## Content
 
 ### Unstructured Data Anomalies
-To build a reliable decision-intelligence platform, DecisionOS must handle significant noise in citizen submissions.
 
-#### 1. NLP Linguistic Anomalies & Code-Switching
-Citizen text inputs are rarely written in standard grammatically correct English. The NLP engine must process:
-*   **Colloquial Misspellings**: "put-hole", "pot hole", "pothol", "drain block", "drin leak".
-*   **Code-Switching (Multilingual Hybrid Text)**: Citizens often mix English and local languages (e.g., Tanglish: *"ABC school main gate kitta oru periya pothole iruku, pullainga cross panna kashtapaduranga"*).
-*   **Vague Geospatial Descriptors**: Instead of coordinates, reports describe locations relative to landmarks: *"near the big banyan tree"* or *"opposite hospital gate"*.
+To build a reliable system, our project must handle the messy, inconsistent data submitted by citizens:
 
-```
-[Raw Multilingual Text Input] ──► (Tokenizer & Named Entity Recognition) ──► [Structured Location & Issue Class]
-```
+#### 1. Text Classification Challenges (NLP)
+Citizen text inputs are rarely perfect:
+*   **Colloquial Terms & Typos**: Citizens type words differently ("pot-hole", "kuzhi", "pothol").
+*   **Mixed Languages (Code-Switching)**: In multilingual areas, reports mix languages (e.g., *"Road damage near school gate kitta, children cross panna mudila"*).
+*   **Vague Locations**: Citizens often type landmarks instead of coordinates (e.g., *"opposite the temple"*).
+*   *Solution*: The NLP engine must be trained to clean text, identify location keywords, and translate/categorize hybrid languages into standard categories.
 
-To resolve these, the NLP pipeline utilizes multilingual embeddings and named entity recognition (NER) models fine-tuned on local municipal vocabulary.
-
-#### 2. Computer Vision Visual Drift
-Photos uploaded by citizens vary widely in quality and perspective, presenting several challenges for automated object detection:
-*   **Occlusion**: The target defect (e.g., a pothole) may be partially blocked by parked vehicles, trash piles, water, or pedestrians.
-*   **Illumination Drift**: Images captured under heavy rain, shadows, bright sunlight, or streetlights at night introduce severe lighting variations.
-*   **Perspective Distortion**: Citizen photos are captured at slanted angles rather than from top-down angles, distorting the apparent size and depth of road damage.
-
-To overcome these, our vision pipeline implements pre-processing filters to check image contrast, alongside YOLOv8 models trained on datasets representing diverse angles and weather conditions.
+#### 2. Visual Variations in Photos (Computer Vision)
+Photos taken by citizens present several challenges:
+*   **Occlusion**: The road defect might be blocked by parked cars, garbage, puddles, or people.
+*   **Lighting Drift**: Photos might be taken at night under streetlights, in bright sunlight, or in rainy weather with shadows.
+*   **Perspective Distortions**: Citizen photos are captured at slanted angles, making it hard to measure the size and depth of a pothole.
+*   *Solution*: The vision engine must perform basic preprocessing checks for blur/contrast, and the YOLO detector must be trained on photos taken from different angles.
 
 ---
 
-### The Computational Decision Gap
-Municipal officers face a massive gap between receiving complaints and dispatching resources. Raw datasets are fragmented:
+### The Decision Gap
+There is a massive gap between receiving complaints and dispatching teams:
 
-$$
-\text{Data Influx} \quad \{ \text{Text}, \, \text{Image}, \, \text{GPS}, \, \text{Weather} \} \quad \not\implies \quad \text{Optimal Resource Dispatch}
-$$
+```
+[Raw Citizen Reports] ──► (AI Analysis & Grouping) ──► (Optimization Engine) ──► [Optimized Dispatch]
+```
 
-Bridging this gap requires three distinct computational layers:
-1.  **AI Understanding**: Converts raw text and images into structured categories and severity scores.
-2.  **Information Consolidation**: Clusters duplicate entries and extracts spatial-temporal metrics.
-3.  **Operations Research Optimization**: Solves resource allocation models using Integer Linear Programming to output optimized dispatch schedules.
+To bridge this gap, our final-year project implements:
+1.  **AI Understanding**: Classifying issues and severity.
+2.  **Duplicate Detection**: Grouping reports to clean the queue.
+3.  **Resource Scheduling**: Recommending dispatches to supervisors.
 
 ---
 *Source basis: DecisionOS Civic source document*

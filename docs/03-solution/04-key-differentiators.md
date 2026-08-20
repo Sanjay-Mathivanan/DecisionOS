@@ -1,20 +1,20 @@
 # Key Differentiators
 
 ## Purpose
-This document contrasts DecisionOS Civic with conventional grievance apps, detailing workflow comparisons and resource dispatch lifecycles.
+This document explains the differences between conventional complaint trackers and DecisionOS Civic.
 
 ## Content
 
-### Operational Comparison Matrix
+### Comparison Matrix
 The table below contrasts standard citizen complaint systems with the DecisionOS Civic platform:
 
-| Operational Dimension | Conventional Mobile Grievance Apps | DecisionOS Civic |
+| Operational Dimension | Conventional Grievance Apps | DecisionOS Civic |
 |---|---|---|
-| **Incident Processing** | Treats each ticket independently. | Groups duplicates into a single Incident using spatial-temporal buffers. |
-| **Triage Time** | Manual reading by clerical staff. | Automated classification using fine-tuned NLP models. |
-| **Field Dispatch** | Arbitrary routing, leading to high resource waste. | Solved mathematically via Integer Linear Programming. |
-| **Queue Logic** | First-In, First-Out (FIFO) queue. | Dynamic queue sorted by priority scores (0-100). |
-| **Auditing & Trust** | Closed ticket status with no explanation. | Explainable AI (SHAP value breakdowns and cost metrics). |
+| **Incident Processing** | Treats every complaint as an isolated ticket. | Groups duplicate reports into a single core Incident. |
+| **Sorting & Assignment** | Manual reading and clerical forwarding. | Automated category classification using NLP models. |
+| **Field Dispatch** | Arbitrary routing based on supervisor availability. | Solved using optimization software (OR-Tools) under constraints. |
+| **Queue Logic** | First-In, First-Out (FIFO) or manual order. | Dynamically sorted by urgency (Severity + Location Exposure). |
+| **Decision Transparency** | Simple status flag (Open/Closed). | Shows explanations and priority factors (e.g., proximity to schools). |
 
 ---
 
