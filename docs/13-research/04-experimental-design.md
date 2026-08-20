@@ -15,7 +15,7 @@ To answer the research questions, the project is tested under the following cond
 #### Optimization Tests (RQ4)
 - **Baseline**: Manual selection.
 - **Greedy**: Dispatch to nearest incident first.
-- **Optimization Model**: Integer Linear Programming (Google OR-Tools solver).
+- **Optimization Model**: Resource scheduling solver (using Google OR-Tools).
 
 ## Related Documents
 - [Research Questions](02-research-questions.md)
